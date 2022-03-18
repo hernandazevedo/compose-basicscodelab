@@ -1,3 +1,6 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Basics Codelab</string>
+    <string name="show_more" tools:ignore="ExtraTranslation">Show more</string>
+    <string name="show_less" tools:ignore="ExtraTranslation">Show less</string>
+    <string name="compose_ypseum" tools:ignore="ExtraTranslation">Lorem ipsum dolor sit amet. Est corporis enim quo cumque culpa ut repudiandae ducimus? Est iusto commodi vel dolorem dolore eum sint saepe non distinctio sunt qui nesciunt ducimus. Ut quod rerum ea perspiciatis consequatur eos voluptate numquam et alias vitae eos soluta voluptate sed dolores accusamus ut quas dolor.</string>
 </resources>
