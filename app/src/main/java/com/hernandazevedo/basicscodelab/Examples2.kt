@@ -18,14 +18,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.flowlayout.FlowRow
 
 
 @Preview(showBackground = true)
 @Composable
 fun ExampleLayoutsPreview() {
-    Example7()
+    Example11()
 }
 
 //1.Row: 3 elementos de tamanhos iguais que ocupam todo o espaço disponível (flex: 1).
@@ -262,41 +264,173 @@ fun Example7() {
 @Composable
 fun Example8() {
     RowWithDirection("flex-start", verticalAlignment = Alignment.Top)
-//    RowWithDirection("flex-end", horizontalArrangement = Arrangement.End)
-//    RowWithDirection(text = "center", horizontalArrangement = Arrangement.Center)
-//     RowWithDirection(text = "space-around", horizontalArrangement = Arrangement.SpaceAround)
-//     RowWithDirection(text = "space-between", horizontalArrangement = Arrangement.SpaceBetween)
-//    RowWithDirection(text = "space-evenly", horizontalArrangement = Arrangement.SpaceEvenly)
+//    RowWithDirection("flex-end", verticalAlignment = Alignment.Bottom)
+//    RowWithDirection(text = "center", verticalAlignment = Alignment.CenterVertically)
+
+    //FIXME stretch ta com problema
+//    RowWithDirection(text = "no height, stretch", itemHeight = 0, itemWidth = 50, stretch = true)
+
+
+}
+
+//9.Row: largura 300, altura indefinida. Overflow do texto deve criar novas linhas, aumentando a altura.
+@Composable
+fun Example9() {
+    Row(modifier = Modifier
+        .width(300.dp)
+        .background(Color.LightGray)) {
+        ExampleText("""
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et ipsum eu nunc semper dapibus vitae id urna. Aenean fermentum purus vitae leo congue varius vel nec ligula. Ut feugiat consectetur augue mattis tempus. Curabitur a erat nec lectus convallis vestibulum. Pellentesque suscipit id tellus ac dapibus. Vivamus aliquam, urna eu ornare euismod, arcu purus vestibulum dolor, ac tempus ante metus mollis ipsum. Ut eget tellus mollis, efficitur sapien in, pulvinar neque.
+            """)
+    }
+
+}
+
+//10.Igual ao anterior, mas o overflow do texto deve ser clipado.
+@Composable
+fun Example10() {
+    //Warning colocou atributo(maxLines) no item ao inves do parent row
+    Row(modifier = Modifier
+        .width(300.dp)
+        .background(Color.LightGray)
+        ) {
+        Text(text = """Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et ipsum eu nunc semper dapibus vitae id urna. Aenean fermentum purus vitae leo congue varius vel nec ligula. Ut feugiat consectetur augue mattis tempus. Curabitur a erat nec lectus convallis vestibulum. Pellentesque suscipit id tellus ac dapibus. Vivamus aliquam, urna eu ornare euismod, arcu purus vestibulum dolor, ac tempus ante metus mollis ipsum. Ut eget tellus mollis, efficitur sapien in, pulvinar neque.
+            """,
+            maxLines = 1,
+//            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Clip
+            , color = Color.White)
+    }
+
+
+}
+
+
+//10.Row: largura 300, altura indefinida. Overflow de componentes deve seguir para a próxima linha.
+//https://github.com/google/accompanist/blob/main/flowlayout/src/main/java/com/google/accompanist/flowlayout/Flow.kt
+//Should we use the https://github.com/google/accompanist/releases/tag/v0.24.6-alpha ??
+@Composable
+fun Example11() {
+    FlowRow(modifier = Modifier
+        .width(300.dp)
+        .background(Color.LightGray)
+    ) {
+        Box(modifier = Modifier.background(Color.Red)
+            .width(50.dp)
+            .height(30.dp)
+        )
+        Box(modifier = Modifier.background(Color.Green)
+            .width(100.dp)
+            .height(30.dp)
+        )
+        Box(modifier = Modifier.background(Color.Blue)
+            .width(80.dp)
+            .height(30.dp)
+        )
+        Box(modifier = Modifier.background(Color.Cyan)
+            .width(60.dp)
+            .height(30.dp)
+        )
+        Box(modifier = Modifier.background(Color.DarkGray)
+            .width(120.dp)
+            .height(30.dp)
+        )
+        Box(modifier = Modifier.background(Color.Magenta)
+            .width(160.dp)
+            .height(30.dp)
+        )
+        Box(modifier = Modifier.background(Color.LightGray)
+            .width(30.dp)
+            .height(30.dp)
+        )
+        Box(modifier = Modifier.background(Color.Green)
+            .width(300.dp)
+            .height(30.dp)
+        )
+        Box(modifier = Modifier.background(Color.Black)
+            .width(150.dp)
+            .height(30.dp)
+        )
+        Box(modifier = Modifier.background(Color.Gray)
+            .width(130.dp)
+            .height(30.dp)
+        )
+        Box(modifier = Modifier.background(Color.Magenta)
+            .width(40.dp)
+            .height(30.dp)
+        )
+    }
 }
 
 @Composable
 private fun RowWithDirection(text: String,
+                             itemWidth: Int = 50,
+                             itemHeight: Int = 50,
+                             stretch: Boolean = false,
                              verticalAlignment: Alignment.Vertical = Alignment.Top,
                              horizontalArrangement: Arrangement.Horizontal = Arrangement.Start) {
+    val modifier = Modifier
+        .width(150.dp)
+        .height(150.dp)
+        .padding(end = 10.dp)
+
+    if(stretch) {
+        Row(
+            verticalAlignment = verticalAlignment,
+            horizontalArrangement = horizontalArrangement,
+            modifier = modifier
+        ) {
+
+            var itemModifier: Modifier = Modifier
+
+            itemModifier = if(stretch) {
+                itemModifier
+            } else {
+                itemModifier
+                    .width(itemWidth.dp)
+                    .height(itemHeight.dp)
+            }
+            Box(
+                modifier = itemModifier
+                    .background(Color.Blue)
+            )
+            {
+                ExampleText(text)
+            }
+
+            Box(
+                modifier = itemModifier
+                    .background(Color.Red)
+            )
+        }
+    }
+
     Row(
         verticalAlignment = verticalAlignment,
         horizontalArrangement = horizontalArrangement,
-        modifier = Modifier
-            .width(150.dp)
-            .height(150.dp)
-
+        modifier = modifier
     ) {
+
+        var itemModifier: Modifier = Modifier
+
+        itemModifier = if(stretch) {
+            itemModifier
+        } else {
+            itemModifier
+                .width(itemWidth.dp)
+                .height(itemHeight.dp)
+        }
         Box(
-            modifier = Modifier
+            modifier = itemModifier
                 .background(Color.Blue)
-                .width(50.dp)
-                .height(50.dp)
         )
         {
             ExampleText(text)
         }
 
         Box(
-            modifier = Modifier
+            modifier = itemModifier
                 .background(Color.Red)
-                .width(50.dp)
-                .height(50.dp)
-
         )
     }
 }
