@@ -307,8 +307,6 @@ fun Example10() {
 
 
 //10.Row: largura 300, altura indefinida. Overflow de componentes deve seguir para a próxima linha.
-//https://github.com/google/accompanist/blob/main/flowlayout/src/main/java/com/google/accompanist/flowlayout/Flow.kt
-//Should we use the https://github.com/google/accompanist/releases/tag/v0.24.6-alpha ??
 @Composable
 fun Example11() {
     FlowRow(modifier = Modifier
