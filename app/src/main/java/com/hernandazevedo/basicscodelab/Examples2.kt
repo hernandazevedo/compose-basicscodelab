@@ -1,7 +1,9 @@
 package com.hernandazevedo.basicscodelab
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,24 +12,44 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.layout.requiredWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Outline
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.flowlayout.FlowRow
+import com.google.accompanist.flowlayout.SizeMode
+import kotlin.math.roundToInt
 
 
 @Preview(showBackground = true)
 @Composable
 fun ExampleLayoutsPreview() {
-    Example11()
+    Example13()
 }
 
 //1.Row: 3 elementos de tamanhos iguais que ocupam todo o espaço disponível (flex: 1).
@@ -306,58 +328,185 @@ fun Example10() {
 }
 
 
-//10.Row: largura 300, altura indefinida. Overflow de componentes deve seguir para a próxima linha.
+//11.Row: largura 300, altura indefinida. Overflow de componentes deve seguir para a próxima linha.
 @Composable
 fun Example11() {
-    FlowRow(modifier = Modifier
-        .width(300.dp)
-        .background(Color.LightGray)
+    FlowRow(mainAxisSize = SizeMode.Wrap,
+        modifier = Modifier
+            .width(300.dp)
+            .background(Color.LightGray)
     ) {
-        Box(modifier = Modifier.background(Color.Red)
+        Box(modifier = Modifier
+            .background(Color.Red)
             .width(50.dp)
             .height(30.dp)
         )
-        Box(modifier = Modifier.background(Color.Green)
+        Box(modifier = Modifier
+            .background(Color.Green)
             .width(100.dp)
             .height(30.dp)
         )
-        Box(modifier = Modifier.background(Color.Blue)
+        Box(modifier = Modifier
+            .background(Color.Blue)
             .width(80.dp)
             .height(30.dp)
         )
-        Box(modifier = Modifier.background(Color.Cyan)
+        Box(modifier = Modifier
+            .background(Color.Cyan)
             .width(60.dp)
             .height(30.dp)
         )
-        Box(modifier = Modifier.background(Color.DarkGray)
+        Box(modifier = Modifier
+            .background(Color.DarkGray)
             .width(120.dp)
             .height(30.dp)
         )
-        Box(modifier = Modifier.background(Color.Magenta)
+        Box(modifier = Modifier
+            .background(Color.Magenta)
             .width(160.dp)
             .height(30.dp)
         )
-        Box(modifier = Modifier.background(Color.LightGray)
+        Box(modifier = Modifier
+            .background(Color.LightGray)
             .width(30.dp)
             .height(30.dp)
         )
-        Box(modifier = Modifier.background(Color.Green)
+        Box(modifier = Modifier
+            .background(Color.Green)
             .width(300.dp)
             .height(30.dp)
         )
-        Box(modifier = Modifier.background(Color.Black)
+        Box(modifier = Modifier
+            .background(Color.Black)
             .width(150.dp)
             .height(30.dp)
         )
-        Box(modifier = Modifier.background(Color.Gray)
+        Box(modifier = Modifier
+            .background(Color.Gray)
             .width(130.dp)
             .height(30.dp)
         )
-        Box(modifier = Modifier.background(Color.Magenta)
+        Box(modifier = Modifier
+            .background(Color.Magenta)
             .width(40.dp)
             .height(30.dp)
         )
     }
+}
+
+//12.Igual o anterior, mas o overflow deve ser clipado.
+@Composable
+fun Example12() {
+    Row(
+        modifier = Modifier
+            .width(300.dp)
+            .background(Color.LightGray)
+    ) {
+        Box(modifier = Modifier
+            .background(Color.Red)
+            .width(50.dp)
+            .height(30.dp)
+        )
+        Box(modifier = Modifier
+            .background(Color.Green)
+            .width(100.dp)
+            .height(30.dp)
+        )
+        Box(modifier = Modifier
+            .background(Color.Blue)
+            .width(80.dp)
+            .height(30.dp)
+        )
+        Box(modifier = Modifier
+            .background(Color.Cyan)
+            .width(60.dp)
+            .height(30.dp)
+        )
+        Box(modifier = Modifier
+            .background(Color.DarkGray)
+            .width(120.dp)
+            .height(30.dp)
+        )
+        Box(modifier = Modifier
+            .background(Color.Magenta)
+            .width(160.dp)
+            .height(30.dp)
+        )
+        Box(modifier = Modifier
+            .background(Color.LightGray)
+            .width(30.dp)
+            .height(30.dp)
+        )
+        Box(modifier = Modifier
+            .background(Color.Green)
+            .width(300.dp)
+            .height(30.dp)
+        )
+        Box(modifier = Modifier
+            .background(Color.Black)
+            .width(150.dp)
+            .height(30.dp)
+        )
+        Box(modifier = Modifier
+            .background(Color.Gray)
+            .width(130.dp)
+            .height(30.dp)
+        )
+        Box(modifier = Modifier
+            .background(Color.Magenta)
+            .width(40.dp)
+            .height(30.dp)
+        )
+    }
+}
+
+//12.Igual o anterior, mas o overflow deve ser clipado.
+@Composable
+fun Example13() {
+
+    Row {
+        Box(
+            modifier = Modifier
+                .width(150.dp)
+                .height(150.dp)
+                .border(BorderStroke(4.dp, Color.Red), shape = CircleShape)
+                .padding(10.dp)
+        )
+        Box(
+            modifier = Modifier
+                .width(150.dp)
+                .height(150.dp)
+                .border(BorderStroke(4.dp, Color.Green),
+                    shape = RoundedCornerShape(50.dp))
+                .padding(10.dp)
+        )
+
+    }
+
+}
+
+private data class DottedShape(
+    val step: Dp,
+) : Shape {
+    override fun createOutline(
+        size: Size,
+        layoutDirection: LayoutDirection,
+        density: Density
+    ) = Outline.Generic(Path().apply {
+        val stepPx = with(density) { step.toPx() }
+        val stepsCount = (size.width / stepPx).roundToInt()
+        val actualStep = size.width / stepsCount
+        val dotSize = Size(width = actualStep / 2, height = size.height)
+        for (i in 0 until stepsCount) {
+            addRect(
+                Rect(
+                    offset = Offset(x = i * actualStep, y = 0f),
+                    size = dotSize
+                )
+            )
+        }
+        close()
+    })
 }
 
 @Composable
