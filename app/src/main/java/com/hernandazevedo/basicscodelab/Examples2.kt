@@ -469,7 +469,8 @@ fun Example13() {
             .width(50.dp)
             .height(50.dp)){
             Canvas(modifier = Modifier.fillMaxSize()) {
-                drawRoundRect(cornerRadius = CornerRadius(100f, 100f),color = Color.Green, style = dottedStroke)
+                drawRoundRect(cornerRadius = CornerRadius(100f, 100f),
+                    color = Color.Red, style = normalStroke)
             }
         }
         Spacer(modifier = Modifier.width(10.dp))
