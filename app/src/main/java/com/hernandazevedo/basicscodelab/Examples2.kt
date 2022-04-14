@@ -1,6 +1,7 @@
 package com.hernandazevedo.basicscodelab
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -9,22 +10,18 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredSize
-import androidx.compose.foundation.layout.requiredWidth
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
@@ -463,23 +460,35 @@ fun Example12() {
 //12.Igual o anterior, mas o overflow deve ser clipado.
 @Composable
 fun Example13() {
-
+    val normalStroke = Stroke(width = 4f)
+    val dottedStroke = Stroke(width = 4f,
+        pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
+    )
     Row {
-        Box(
-            modifier = Modifier
-                .width(150.dp)
-                .height(150.dp)
-                .border(BorderStroke(4.dp, Color.Red), shape = CircleShape)
-                .padding(10.dp)
-        )
-        Box(
-            modifier = Modifier
-                .width(150.dp)
-                .height(150.dp)
-                .border(BorderStroke(4.dp, Color.Green),
-                    shape = RoundedCornerShape(50.dp))
-                .padding(10.dp)
-        )
+        Box(modifier = Modifier
+            .width(50.dp)
+            .height(50.dp)){
+            Canvas(modifier = Modifier.fillMaxSize()) {
+                drawRoundRect(cornerRadius = CornerRadius(100f, 100f),color = Color.Green, style = dottedStroke)
+            }
+        }
+        Spacer(modifier = Modifier.width(10.dp))
+        Box(modifier = Modifier
+            .width(50.dp)
+            .height(50.dp)){
+            Canvas(modifier = Modifier.fillMaxSize()) {
+                drawRoundRect(cornerRadius = CornerRadius(50f, 50f),color = Color.Green, style = dottedStroke)
+            }
+        }
+        Spacer(modifier = Modifier.width(10.dp))
+        Box(modifier = Modifier
+            .width(50.dp)
+            .height(50.dp)){
+            Canvas(modifier = Modifier.fillMaxSize()) {
+                drawRoundRect(color = Color.Blue, style = dottedStroke)
+            }
+        }
+        Spacer(modifier = Modifier.width(10.dp))
 
     }
 
