@@ -13,14 +13,20 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
+import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
@@ -31,6 +37,7 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,6 +45,7 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.SizeMode
 import kotlin.math.roundToInt
@@ -46,7 +54,7 @@ import kotlin.math.roundToInt
 @Preview(showBackground = true)
 @Composable
 fun ExampleLayoutsPreview() {
-    Example13()
+    Example15()
 }
 
 //1.Row: 3 elementos de tamanhos iguais que ocupam todo o espaço disponível (flex: 1).
@@ -457,14 +465,14 @@ fun Example12() {
     }
 }
 
-//12.Igual o anterior, mas o overflow deve ser clipado.
+//12.Bordas: cor, raio, espessura e estilo
 @Composable
 fun Example13() {
     val normalStroke = Stroke(width = 4f)
     val dottedStroke = Stroke(width = 4f,
         pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
     )
-    Row {
+    Box {
         Box(modifier = Modifier
             .width(50.dp)
             .height(50.dp)){
@@ -491,6 +499,64 @@ fun Example13() {
         }
         Spacer(modifier = Modifier.width(10.dp))
 
+    }
+
+}
+
+//14.Overflow visível: quadrado de 100x100 com
+// dois filhos dispostos em linha: o primeiro 30x200 e o segundo 200x30
+@Composable
+fun Example14() {
+    FlowRow(
+        mainAxisSize = SizeMode.Expand,
+        modifier = Modifier
+            .width(100.dp)
+            .height(100.dp)
+            .background(Color.LightGray)) {
+            Box(modifier = Modifier
+                .width(200.dp)
+                .height(30.dp)
+                .background(Color.Red)
+
+            )
+//        Box(Modifier
+//            .fillMaxWidth()
+//            .width(200.dp)
+//            .height(30.dp)
+//            .background(Color.Blue))
+    }
+//    Column(Modifier.width(IntrinsicSize.Min)) {
+//        Text(text = "4")
+//        Divider(modifier = Modifier.fillMaxWidth().width(1.dp), color = Color.Black)
+//        Text(text = "2")
+//    }
+}
+
+//15.Posicionamento absoluto (stack no eixo z): dois
+// quadrados que intercedem na metade da altura e largura
+@Composable
+fun Example15() {
+    Box(
+        modifier = Modifier
+            .width(75.dp)
+            .height(75.dp)
+            .background(Color.LightGray)
+    ) {
+        Box(modifier = Modifier
+//            .zIndex(1f)
+            .width(50.dp)
+            .height(50.dp)
+            .background(Color.Blue)
+        )
+
+        Box(modifier = Modifier
+            .offset(x = 25.dp, y = 25.dp)
+            .width(50.dp)
+            .height(50.dp)
+            .background(Color.Red)
+
+        ) {
+        }
     }
 
 }
