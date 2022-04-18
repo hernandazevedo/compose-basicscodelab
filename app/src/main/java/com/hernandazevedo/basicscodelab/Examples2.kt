@@ -674,32 +674,3 @@ fun ExampleText(text: String = "",
                 modifier: Modifier = Modifier) {
     Text(text = text, color = textColor, modifier = modifier)
 }
-
-
-//@Composable
-//fun Container(style: Style = Style(), modifier: Modifier = Modifier, content: @Composable ContainerScope.() -> Unit) {
-//    modifier.height(50.dp)
-//    Row(
-//        modifier = modifier.flex(style.flex)
-//    ) {
-//        ContainerScopeInstance.content()
-//    }
-//}
-//
-//internal object ContainerScopeInstance : ContainerScope {
-//    @Stable
-//    override fun Modifier.flex(flex: Float): Modifier {
-//        require(flex != 0F) { "invalid weight $flex; must be diferent than zero" }
-//        return this.then(
-//            this.weight(flex)
-//        )
-//    }
-//}
-//
-//interface ContainerScope {
-//    @Stable
-//    fun Modifier.flex(
-//        flex: Float = 0F,
-//    ): Modifier
-//}
-
