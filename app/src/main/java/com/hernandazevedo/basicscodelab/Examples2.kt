@@ -207,7 +207,6 @@ fun Example5() {
         Row(
             modifier = Modifier
                 .weight(1F)
-
                 .background(Color.Green)
                 .height(50.dp)
         ) {
@@ -233,7 +232,6 @@ fun Example5() {
 // maneira implícita.
 @Composable
 fun Example6() {
-
     Row(
         modifier = Modifier
             .height(IntrinsicSize.Min)
@@ -450,7 +448,7 @@ fun Example13() {
     val dottedStroke = Stroke(width = 4f,
         pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
     )
-    Box {
+    Row {
         Box(modifier = Modifier
             .width(50.dp)
             .height(50.dp)){
