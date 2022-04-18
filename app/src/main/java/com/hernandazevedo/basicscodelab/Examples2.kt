@@ -43,7 +43,7 @@ fun ExampleLayoutsPreview() {
         color = MaterialTheme.colors.background
     ) {
         Box {
-            Example3()
+            Example13()
         }
     }
 }
@@ -191,9 +191,7 @@ fun Example4() {
 //5.Igual ao anterior, mas o primeiro tem margin top e bottom de 10 e o último padding e bottom de 10.
 @Composable
 fun Example5() {
-    Row(
-        modifier = Modifier.fillMaxSize()
-    ) {
+    Row {
         Row(
             modifier = Modifier
                 .weight(2F)
@@ -240,7 +238,6 @@ fun Example6() {
         modifier = Modifier
             .height(IntrinsicSize.Min)
     ) {
-
         Image(
             painter = painterResource(R.drawable.forest),
             contentDescription = "Forest",
@@ -254,9 +251,6 @@ fun Example6() {
                 .fillMaxHeight()
                 .weight(1F)
         )
-//        {
-////            ExampleText("b")
-//        }
     }
 }
 
@@ -600,52 +594,16 @@ private fun RowWithDirection(text: String,
         .height(150.dp)
         .padding(end = 10.dp)
 
-    if(stretch) {
-        Row(
-            verticalAlignment = verticalAlignment,
-            horizontalArrangement = horizontalArrangement,
-            modifier = modifier
-        ) {
-
-            var itemModifier: Modifier = Modifier
-
-            itemModifier = if(stretch) {
-                itemModifier
-            } else {
-                itemModifier
-                    .width(itemWidth.dp)
-                    .height(itemHeight.dp)
-            }
-            Box(
-                modifier = itemModifier
-                    .background(Color.Blue)
-            )
-            {
-                ExampleText(text)
-            }
-
-            Box(
-                modifier = itemModifier
-                    .background(Color.Red)
-            )
-        }
-    }
-
     Row(
         verticalAlignment = verticalAlignment,
         horizontalArrangement = horizontalArrangement,
         modifier = modifier
     ) {
 
-        var itemModifier: Modifier = Modifier
+        var itemModifier = Modifier
+            .width(itemWidth.dp)
+            .height(itemHeight.dp)
 
-        itemModifier = if(stretch) {
-            itemModifier
-        } else {
-            itemModifier
-                .width(itemWidth.dp)
-                .height(itemHeight.dp)
-        }
         Box(
             modifier = itemModifier
                 .background(Color.Blue)
