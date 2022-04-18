@@ -43,7 +43,7 @@ fun ExampleLayoutsPreview() {
         color = MaterialTheme.colors.background
     ) {
         Box {
-            Example16()
+            Example3()
         }
     }
 }
@@ -51,9 +51,7 @@ fun ExampleLayoutsPreview() {
 //1.Row: 3 elementos de tamanhos iguais que ocupam todo o espaço disponível (flex: 1).
 @Composable
 fun Example1() {
-    Row(
-        modifier = Modifier.fillMaxSize()
-    ) {
+    Row {
         Row(
             modifier = Modifier
                 .weight(1F)
@@ -85,9 +83,7 @@ fun Example1() {
 //2.Igual ao anterior, mas com margin-left de 10 entre cada item.
 @Composable
 fun Example2() {
-    Row(
-        modifier = Modifier.fillMaxSize()
-    ) {
+    Row {
         Row(
             modifier = Modifier
                 .weight(1F)
@@ -121,13 +117,10 @@ fun Example2() {
     }
 }
 
-
 //3.Igual ao primeiro, mas com padding-left de 10 entre cada item.
 @Composable
 fun Example3() {
-    Column(
-        modifier = Modifier.fillMaxSize()
-    ) {
+    Row {
         Row(
             modifier = Modifier
                 .weight(1F)
