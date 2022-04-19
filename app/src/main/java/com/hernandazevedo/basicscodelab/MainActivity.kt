@@ -251,7 +251,7 @@ fun LayoutExample(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 fun ExamplePreview2() {
-    MarginExample()
+    ShadowExample()
 }
 
 @Composable
@@ -275,7 +275,7 @@ fun MarginExample() {
 
 
 @Composable
-fun ShadowExample() {
+fun ShadowExample1() {
     val padding = 20.dp
     val density = LocalDensity.current
     Surface(
@@ -288,18 +288,9 @@ fun ShadowExample() {
                 shadowRadius = 10.dp,
                 color = Color.Blue,
                 offsetX = 10.dp
+            ).coloredShadow(
+                color = Color.Red
             )
-            .drawWithContent {
-                val paddingPx = with(density) { padding.toPx() }
-                clipRect(
-                    left = -paddingPx,
-                    top = 0f,
-                    right = size.width + paddingPx,
-                    bottom = size.height + paddingPx
-                ) {
-                    this@drawWithContent.drawContent()
-                }
-            }
     ) {
         Text(
             "Hello",
@@ -307,44 +298,6 @@ fun ShadowExample() {
                 .padding(10.dp)
                 .fillMaxWidth()
         )
-    }
-}
-
-fun Modifier.coloredShadow(
-    color: Color,
-    alpha: Float = 0.2f,
-    borderRadius: Dp = 0.dp,
-    shadowRadius: Dp = 20.dp,
-    offsetY: Dp = 0.dp,
-    offsetX: Dp = 0.dp
-) = composed {
-
-    val shadowColor = color.copy(alpha = alpha).toArgb()
-    val transparent = color.copy(alpha= 0f).toArgb()
-
-    this.drawBehind {
-
-        this.drawIntoCanvas {
-            val paint = Paint()
-            val frameworkPaint = paint.asFrameworkPaint()
-            frameworkPaint.color = transparent
-
-            frameworkPaint.setShadowLayer(
-                shadowRadius.toPx(),
-                offsetX.toPx(),
-                offsetY.toPx(),
-                shadowColor
-            )
-            it.drawRoundRect(
-                0f,
-                0f,
-                this.size.width,
-                this.size.height,
-                borderRadius.toPx(),
-                borderRadius.toPx(),
-                paint
-            )
-        }
     }
 }
 
@@ -381,7 +334,7 @@ fun OffsetExample() {
 @Preview(showBackground = true)
 @Composable
 fun OffSetExamplePreview2() {
-    OffsetExample2()
+    ShadowExample()
 }
 
 

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -21,13 +22,21 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.google.accompanist.flowlayout.FlowRow
@@ -42,7 +51,7 @@ fun ExampleLayoutsPreview() {
         color = MaterialTheme.colors.background
     ) {
         Box {
-            Example8()
+            Example13()
         }
     }
 }
@@ -468,7 +477,7 @@ fun Example13() {
     val dottedStroke = Stroke(width = 4f,
         pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
     )
-    Row {
+    FlowRow {
         Box(modifier = Modifier
             .width(50.dp)
             .height(50.dp)){
@@ -598,6 +607,71 @@ fun Example16() {
                     .background(Color.Magenta)
             ) {}
         }
+}
+
+@Composable
+fun ShadowExample() {
+    val padding = 20.dp
+    val density = LocalDensity.current
+    Surface(
+        shape = RectangleShape,
+        color = Color.White,
+//        elevation = 10.dp,
+        modifier = Modifier
+            .padding(padding)
+            .coloredShadow(
+                shadowRadius = 10.dp,
+                color = Color.Blue,
+                offsetX = 10.dp
+            ).coloredShadow(
+                color = Color.Red
+            )
+    ) {
+        Text(
+            "Hello",
+            modifier = Modifier
+                .padding(10.dp)
+                .fillMaxWidth()
+        )
+    }
+}
+
+fun Modifier.coloredShadow(
+    color: Color,
+    alpha: Float = 0.2f,
+    borderRadius: Dp = 0.dp,
+    shadowRadius: Dp = 20.dp,
+    offsetY: Dp = 0.dp,
+    offsetX: Dp = 0.dp
+) = composed {
+
+    val shadowColor = color.copy(alpha = alpha).toArgb()
+    val transparent = color.copy(alpha= 0f).toArgb()
+
+    this.drawBehind {
+
+        this.drawIntoCanvas {
+            val paint = Paint()
+            val frameworkPaint = paint.asFrameworkPaint()
+            frameworkPaint.color = transparent
+
+            frameworkPaint.setShadowLayer(
+                shadowRadius.toPx(),
+                offsetX.toPx(),
+                offsetY.toPx(),
+                shadowColor
+            )
+            it.drawRoundRect(
+                0f,
+                0f,
+                this.size.width,
+                this.size.height,
+                borderRadius.toPx(),
+                borderRadius.toPx(),
+                paint
+            )
+        }
+    }
 }
 
 @Composable
