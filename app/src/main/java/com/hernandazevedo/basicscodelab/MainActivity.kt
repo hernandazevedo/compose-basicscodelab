@@ -76,7 +76,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     Box {
-                        Example13()
+                        Example8()
                     }
                 }
             }

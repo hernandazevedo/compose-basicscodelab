@@ -5,7 +5,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,12 +21,12 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -43,7 +42,7 @@ fun ExampleLayoutsPreview() {
         color = MaterialTheme.colors.background
     ) {
         Box {
-            Example13()
+            Example8()
         }
     }
 }
@@ -266,25 +265,46 @@ fun Example7() {
 //8.Row: variações de align-items
 @Composable
 fun Example8() {
-    RowWithDirection("flex-start", verticalAlignment = Alignment.Top)
+//    RowWithDirection("flex-start", verticalAlignment = Alignment.Top)
 //    RowWithDirection("flex-end", verticalAlignment = Alignment.Bottom)
 //    RowWithDirection(text = "center", verticalAlignment = Alignment.CenterVertically)
 
     //FIXME stretch ta com problema
-//    RowWithDirection(text = "no height, stretch", itemHeight = 0, itemWidth = 50, stretch = true)
+    RowWithDirection(text = "no height, stretch", itemHeight = 0, itemWidth = 50, stretch = true)
 
-
+//    Row(Modifier
+//        .height(150.dp)
+//        .width(150.dp)) {
+//
+//        Box(
+//            modifier = Modifier
+//                .width(50.dp)
+//                .fillMaxHeight()
+//                .background(Color.Blue)
+//        ){ ExampleText("no height, stretch")}
+//
+//        Box(
+//            modifier = Modifier
+//                .width(50.dp)
+//                .fillMaxHeight()
+//                .background(Color.Red)
+//        ){}
+//    }
 }
 
 //9.Row: largura 300, altura indefinida. Overflow do texto deve criar novas linhas, aumentando a altura.
 @Composable
 fun Example9() {
-    Row(modifier = Modifier
+    FlowRow(modifier = Modifier
+//        .clipToBounds()
         .width(300.dp)
         .background(Color.LightGray)) {
-        ExampleText("""
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et ipsum eu nunc semper dapibus vitae id urna. Aenean fermentum purus vitae leo congue varius vel nec ligula. Ut feugiat consectetur augue mattis tempus. Curabitur a erat nec lectus convallis vestibulum. Pellentesque suscipit id tellus ac dapibus. Vivamus aliquam, urna eu ornare euismod, arcu purus vestibulum dolor, ac tempus ante metus mollis ipsum. Ut eget tellus mollis, efficitur sapien in, pulvinar neque.
-            """)
+        Text(text = """Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et ipsum eu nunc semper dapibus vitae id urna. Aenean fermentum purus vitae leo congue varius vel nec ligula. Ut feugiat consectetur augue mattis tempus. Curabitur a erat nec lectus convallis vestibulum. Pellentesque suscipit id tellus ac dapibus. Vivamus aliquam, urna eu ornare euismod, arcu purus vestibulum dolor, ac tempus ante metus mollis ipsum. Ut eget tellus mollis, efficitur sapien in, pulvinar neque.
+            """,
+//            maxLines = 1,
+//            overflow = TextOverflow.Ellipsis
+//            overflow = TextOverflow.Clip
+             color = Color.White)
     }
 
 }
@@ -293,16 +313,16 @@ fun Example9() {
 @Composable
 fun Example10() {
     //Warning colocou atributo(maxLines) no item ao inves do parent row
-    Row(modifier = Modifier
+    FlowRow(modifier = Modifier
+        .clipToBounds()
         .width(300.dp)
-        .background(Color.LightGray)
-        ) {
+        .background(Color.LightGray)) {
         Text(text = """Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et ipsum eu nunc semper dapibus vitae id urna. Aenean fermentum purus vitae leo congue varius vel nec ligula. Ut feugiat consectetur augue mattis tempus. Curabitur a erat nec lectus convallis vestibulum. Pellentesque suscipit id tellus ac dapibus. Vivamus aliquam, urna eu ornare euismod, arcu purus vestibulum dolor, ac tempus ante metus mollis ipsum. Ut eget tellus mollis, efficitur sapien in, pulvinar neque.
             """,
             maxLines = 1,
 //            overflow = TextOverflow.Ellipsis
-            overflow = TextOverflow.Clip
-            , color = Color.White)
+//            overflow = TextOverflow.Clip
+            color = Color.White)
     }
 
 
@@ -600,7 +620,12 @@ private fun RowWithDirection(text: String,
 
         var itemModifier = Modifier
             .width(itemWidth.dp)
-            .height(itemHeight.dp)
+
+        itemModifier = if (stretch) {
+            itemModifier.fillMaxHeight()
+        } else {
+            itemModifier.height(itemHeight.dp)
+        }
 
         Box(
             modifier = itemModifier
