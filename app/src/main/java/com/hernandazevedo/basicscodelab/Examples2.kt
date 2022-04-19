@@ -619,11 +619,11 @@ fun ShadowExample() {
         modifier = Modifier
             .padding(padding)
             .coloredShadow(
-                alpha = 0.6f,
-                shadowRadius = 1.dp,
+//                alpha = 0.5f,
+                shadowRadius = 15.dp, //blur
                 color = Color.Blue,
                 offsetX = 0.dp,
-                offsetY = 10.dp,
+                offsetY = 15.dp,
                 spread = 10f
             )
     ) {
@@ -638,7 +638,7 @@ fun ShadowExample() {
 
 fun Modifier.coloredShadow(
     color: Color,
-    alpha: Float = 0.2f,
+//    alpha: Float = 0.2f,
     borderRadius: Dp = 0.dp,
     shadowRadius: Dp = 20.dp,
     offsetY: Dp = 0.dp,
@@ -646,7 +646,7 @@ fun Modifier.coloredShadow(
     spread: Float = 0f
 ) = composed {
 
-    val shadowColor = color.copy(alpha = alpha).toArgb()
+    val shadowColor = color.toArgb()
     val transparent = color.copy(alpha= 0f).toArgb()
 
     this.drawBehind {
