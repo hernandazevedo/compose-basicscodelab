@@ -51,7 +51,7 @@ fun ExampleLayoutsPreview() {
         color = MaterialTheme.colors.background
     ) {
         Box {
-            Example13()
+            ShadowExample()
         }
     }
 }
@@ -612,7 +612,6 @@ fun Example16() {
 @Composable
 fun ShadowExample() {
     val padding = 20.dp
-    val density = LocalDensity.current
     Surface(
         shape = RectangleShape,
         color = Color.White,
@@ -620,11 +619,12 @@ fun ShadowExample() {
         modifier = Modifier
             .padding(padding)
             .coloredShadow(
-                shadowRadius = 10.dp,
+                alpha = 0.6f,
+                shadowRadius = 1.dp,
                 color = Color.Blue,
-                offsetX = 10.dp
-            ).coloredShadow(
-                color = Color.Red
+                offsetX = 0.dp,
+                offsetY = 10.dp,
+                spread = 10f
             )
     ) {
         Text(
@@ -642,7 +642,8 @@ fun Modifier.coloredShadow(
     borderRadius: Dp = 0.dp,
     shadowRadius: Dp = 20.dp,
     offsetY: Dp = 0.dp,
-    offsetX: Dp = 0.dp
+    offsetX: Dp = 0.dp,
+    spread: Float = 0f
 ) = composed {
 
     val shadowColor = color.copy(alpha = alpha).toArgb()
@@ -664,8 +665,8 @@ fun Modifier.coloredShadow(
             it.drawRoundRect(
                 0f,
                 0f,
-                this.size.width,
-                this.size.height,
+                this.size.width + spread,
+                this.size.height + spread,
                 borderRadius.toPx(),
                 borderRadius.toPx(),
                 paint
